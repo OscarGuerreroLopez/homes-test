@@ -1,14 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeepPartial, In, Repository } from "typeorm";
-import { BusinessData, User, Home } from "../entities";
+import { Home } from "../entities";
 
 @Injectable()
 export class HomeRepositoryService {
   constructor(
-    @InjectRepository(BusinessData)
-    private businessRepository: Repository<BusinessData>,
-    @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Home) private homeRepository: Repository<Home>,
   ) {}
 

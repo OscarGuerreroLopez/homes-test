@@ -22,9 +22,10 @@ export interface HomeEntity {
 }
 
 // This might look unnecesary, but I understand that in a microservice env here
-// we need to apply business rules to our entity, even if typeorm also checks before inserting
-// this way, if we have a service that handles DB transactions we will not call it unnecesarily
-// thus offloading that service
+// we need to apply business rules to our entity, (this is a business entity, not a DB entity)
+// even if typeorm also checks before inserting, but the DB Repository might be implemented in another service
+// This way, if we have a service that handles DB transactions we will not call it unnecesarily
+// if the data does not meet the business entity rules , thus offloading that service
 
 @Injectable()
 export class HomeEntityInstance {

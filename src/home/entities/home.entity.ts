@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { MakeUUID } from "../../shared";
 
 export interface HomeEntity {
-  id: string;
+  uuid: string;
   zipcode: string;
   streetNumber?: string;
   streetName?: string;

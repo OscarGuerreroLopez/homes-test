@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Http {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Home {
   uuid: String!
   zipcode: String!
@@ -23,28 +18,13 @@ type BusinessData {
 }
 
 type Query {
-  http(id: Int!): Http!
   getHome(uuid: ID!): Home!
   getBusinessDataFromHomeUuid(homeUuid: ID!): BusinessData!
 }
 
 type Mutation {
-  createHttp(createHttpInput: CreateHttpInput!): Http!
-  updateHttp(updateHttpInput: UpdateHttpInput!): Http!
-  removeHttp(id: Int!): Http!
   createHome(input: HomeInput!): Home!
   generateBusinessDataForHome(homeUuid: ID!, initialOfferPrice: Float!, finalOfferPrice: Float!, targetSalePrice: Float!): BusinessData!
-}
-
-input CreateHttpInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateHttpInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input HomeInput {

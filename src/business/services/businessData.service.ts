@@ -10,6 +10,7 @@ import {
 } from "../entities/businessData.entity";
 import { BusinessRepositoryService } from "../../repository/services";
 import { HomeRepositoryService } from "../../repository/services";
+import { ComputeNegotiationMargin, ComputeServiceFees } from ".";
 
 @Injectable()
 export class BusinessDataService {
@@ -20,6 +21,10 @@ export class BusinessDataService {
     private businessDataRepository: BusinessRepositoryService,
     @Inject(HomeRepositoryService)
     private homeRepositoryService: HomeRepositoryService,
+    @Inject(ComputeNegotiationMargin)
+    private computeNegotiationMargin: ComputeNegotiationMargin,
+    @Inject(ComputeServiceFees)
+    private computeServiceFees: ComputeServiceFees,
   ) {}
 
   async generateBusinessDataForHome(
@@ -32,13 +37,30 @@ export class BusinessDataService {
     //  - serviceFees (see README)
     //  - negociation margin (see README)
 
+    const home = await this.homeRepositoryService.findHome([homeUuid]);
+
+    if (home.length !== 1) {
+      throw new NotFoundException(
+        `Could not find home or too many homes with uuid ${homeUuid}`,
+      );
+    }
+    const negociationMargin = this.computeNegotiationMargin.getMargin(
+      finalOfferPrice,
+      targetSalePrice,
+    );
+
+    const serviceFees = this.computeServiceFees.getServiceFees(
+      finalOfferPrice,
+      home[0].zipcode,
+    );
+
     const businessData = await this.businessDataRepository.createBusinessData({
       homeUuid,
       initialOfferPrice,
       finalOfferPrice,
       targetSalePrice,
-      // serviceFees
-      // negociationMargin
+      serviceFees,
+      negociationMargin,
     });
     await this.homeRepositoryService.updateHome(homeUuid, {
       businessDataUuid: businessData.uuid,

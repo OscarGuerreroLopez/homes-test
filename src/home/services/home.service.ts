@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from "@nestjs/common";
 import { HomeEntity, HomeEntityInstance } from "../entities/home.entity";
 import { HomeRepositoryService } from "../../repository/services";
 
@@ -13,7 +18,7 @@ export class HomeService {
     private repositoryService: HomeRepositoryService,
   ) {}
 
-  async getAllHomes(): Promise<HomeEntity[]> {
+  async findAllHomes(): Promise<HomeEntity[]> {
     return this.repositoryService.findAllHomes();
   }
 
@@ -34,10 +39,39 @@ export class HomeService {
       ...homeInput,
     };
 
-    const result = this.repositoryService.createHome(newHome);
+    const result = await this.repositoryService.createHome(newHome);
 
     console.log("@@@HomeService createHome", result);
 
     return result;
+  }
+
+  async deleteHome(uuid: string): Promise<boolean> {
+    try {
+      await this.repositoryService.deleteHome(uuid);
+      return true;
+    } catch (error) {
+      // we should log the error and throw a generic error message
+      // did not have time to implement a logger
+      console.log("@@@deleteHome error", error);
+
+      throw new InternalServerErrorException(`Not able to delete ${uuid}`);
+    }
+  }
+
+  async updateHome(
+    uuid: string,
+    update: Partial<HomeEntity>,
+  ): Promise<HomeEntity> {
+    try {
+      const result = await this.repositoryService.updateHome(uuid, update);
+
+      return result;
+    } catch (error) {
+      // we should log the error and throw a generic error message
+      // did not have time to implement a logger
+      console.log("@@@updateHome error", error);
+      throw new InternalServerErrorException(`Not able to update ${uuid}`);
+    }
   }
 }

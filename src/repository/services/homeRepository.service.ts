@@ -12,24 +12,38 @@ export class HomeRepositoryService {
     @InjectRepository(Home) private homeRepository: Repository<Home>,
   ) {}
 
-  findAllHomes(): Promise<Home[]> {
-    const result = this.homeRepository.find();
-
-    return result;
+  async findAllHomes(): Promise<Home[]> {
+    return this.homeRepository.find();
   }
 
-  createHome(homeInput: DeepPartial<Home>): Promise<Home> {
+  async createHome(homeInput: DeepPartial<Home>): Promise<Home> {
     console.log("@@@createHome at RepositoryService", homeInput);
 
     const newHome = this.homeRepository.create(homeInput);
-    return this.homeRepository.save(newHome);
+
+    const result = this.homeRepository.save(newHome);
+    return result;
   }
 
-  findHome(uuid: string[]): Promise<Home[]> {
+  async findHome(uuid: string[]): Promise<Home[]> {
     const results = this.homeRepository.find({
       where: { uuid: In(uuid) },
     });
 
     return results;
+  }
+
+  async deleteHome(uuid: string): Promise<number> {
+    const result = await this.homeRepository.delete({ uuid: uuid });
+    if (!result.affected) {
+      throw Error(`Could not delete home with uuid ${uuid}`);
+    }
+    return result.affected;
+  }
+
+  async updateHome(uuid: string, update: DeepPartial<Home>): Promise<Home> {
+    const result = this.homeRepository.save({ uuid: uuid, ...update });
+
+    return result;
   }
 }

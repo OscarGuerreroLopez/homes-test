@@ -10,19 +10,23 @@ import {
 } from "../entities/businessData.entity";
 import { BusinessRepositoryService } from "../../repository/services";
 import { HomeRepositoryService } from "../../repository/services";
-import { ComputeNegotiationMarginService, ComputeServiceFees } from ".";
+import { ComputeNegotiationMarginService } from "./computeNegotiationMargin.service";
+import { ComputeServiceFees } from "./computeServiceFees.service";
 
 @Injectable()
 export class BusinessDataService {
-  computeNegotiationMargin: ComputeNegotiationMarginService;
-  computeServiceFees: ComputeServiceFees;
+  //   computeNegotiationMargin: ComputeNegotiationMarginService;
+  //   computeServiceFees: ComputeServiceFees;
   constructor(
     @Inject(BusinessDataInstance)
     private businessDataInstance: BusinessDataInstance,
     @Inject(BusinessRepositoryService)
     private businessDataRepository: BusinessRepositoryService,
     @Inject(HomeRepositoryService)
-    private homeRepositoryService: HomeRepositoryService, // @Inject(ComputeNegotiationMarginService) // private computeNegotiationMargin: ComputeNegotiationMarginService, // @Inject(ComputeServiceFees) // private computeServiceFees: ComputeServiceFees,
+    private homeRepositoryService: HomeRepositoryService,
+    @Inject(ComputeNegotiationMarginService)
+    private computeNegotiationMargin: ComputeNegotiationMarginService,
+    @Inject(ComputeServiceFees) private computeServiceFees: ComputeServiceFees,
   ) {}
 
   async generateBusinessDataForHome(
@@ -53,6 +57,7 @@ export class BusinessDataService {
     );
 
     const businessData = await this.businessDataRepository.createBusinessData({
+      uuid: this.businessDataInstance.getID(),
       homeUuid,
       initialOfferPrice,
       finalOfferPrice,

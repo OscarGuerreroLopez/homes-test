@@ -18,13 +18,13 @@ type BusinessData {
 }
 
 type Query {
-  getHome(uuid: ID!): Home!
-  getBusinessDataFromHomeUuid(homeUuid: ID!): BusinessData!
+  getHome(uuid: String!): Home!
+  getBusinessDataFromHomeUuid(homeUuid: String!): BusinessData!
 }
 
 type Mutation {
   createHome(input: HomeInput!): Home!
-  generateBusinessDataForHome(homeUuid: ID!, initialOfferPrice: Float!, finalOfferPrice: Float!, targetSalePrice: Float!): BusinessData!
+  generateBusinessDataForHome(homeUuid: String!, initialOfferPrice: Float!, finalOfferPrice: Float!, targetSalePrice: Float!): BusinessData!
 }
 
 input HomeInput {

@@ -58,7 +58,7 @@ export class BusinessDataService {
 
     const businessData = await this.businessDataRepository.createBusinessData({
       uuid: this.businessDataInstance.getID(),
-      homeUuid,
+      homeUuid: this.businessDataInstance.validID(homeUuid),
       initialOfferPrice,
       finalOfferPrice,
       targetSalePrice,
@@ -97,7 +97,7 @@ export class BusinessDataService {
     } catch (error) {
       // we should log the error and throw a generic error message
       // did not have time to implement a logger
-      console.log("@@@ddeleteBusinessData error", error);
+      console.log("@@@deleteBusinessData error", error);
 
       throw new InternalServerErrorException(`Not able to delete ${uuid}`);
     }

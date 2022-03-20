@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { MakeUUID } from "../../shared";
 
 export interface BusinessData {
@@ -18,5 +18,15 @@ export class BusinessDataInstance {
 
   getID() {
     return this.makeUUID.setRandomUuid();
+  }
+
+  validID(uuid: string) {
+    const isValid = this.makeUUID.isValidUUID(uuid);
+
+    if (!isValid) {
+      throw new BadRequestException(`Invalid UUID ${uuid}`);
+    }
+
+    return uuid;
   }
 }

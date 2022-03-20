@@ -41,8 +41,6 @@ export class HomeService {
 
     const result = await this.repositoryService.createHome(newHome);
 
-    console.log("@@@HomeService createHome", result);
-
     return result;
   }
 

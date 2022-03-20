@@ -14,12 +14,9 @@ export class HomeRepositoryService {
   }
 
   async createHome(homeInput: DeepPartial<Home>): Promise<Home> {
-    console.log("@@@createHome at RepositoryService", homeInput);
-
     const newHome = this.homeRepository.create(homeInput);
 
     const result = this.homeRepository.save(newHome);
-    console.log("@@@createHome at RepositoryService result", result);
     return result;
   }
 

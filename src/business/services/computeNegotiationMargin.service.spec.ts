@@ -6,8 +6,6 @@ describe("computeNegotiationMargin.service test", () => {
 
     const result = computeNegotiationMargin.getMargin(1000, 35, 4);
 
-    console.log("@@@111", result);
-
     expect(result).toStrictEqual(-0.965);
   });
 });

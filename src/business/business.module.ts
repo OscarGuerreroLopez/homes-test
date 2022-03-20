@@ -3,7 +3,7 @@ import { RepositoryModule } from "../repository/repository.module";
 import { BusinessDataInstance } from "./entities/businessData.entity";
 import { MakeUUID } from "../shared";
 import {
-  ComputeNegotiationMargin,
+  ComputeNegotiationMarginService,
   BusinessDataService,
   ComputeServiceFees,
 } from "./services";
@@ -11,11 +11,12 @@ import {
 @Module({
   imports: [RepositoryModule],
   providers: [
+    ComputeNegotiationMarginService,
     BusinessDataInstance,
     BusinessDataService,
     MakeUUID,
-    ComputeNegotiationMargin,
     ComputeServiceFees,
   ],
+  exports: [BusinessDataService],
 })
 export class BusinessModule {}

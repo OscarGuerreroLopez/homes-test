@@ -19,6 +19,7 @@ export class HomeRepositoryService {
     const newHome = this.homeRepository.create(homeInput);
 
     const result = this.homeRepository.save(newHome);
+    console.log("@@@createHome at RepositoryService result", result);
     return result;
   }
 

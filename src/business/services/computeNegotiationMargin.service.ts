@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class ComputeNegotiationMargin {
+export class ComputeNegotiationMarginService {
   getMargin(
     finalOfferPrice: number,
     targetSalePrice: number,

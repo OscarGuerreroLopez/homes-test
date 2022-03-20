@@ -7,5 +7,6 @@ import { RepositoryModule } from "../repository/repository.module";
 @Module({
   imports: [RepositoryModule],
   providers: [HomeEntityInstance, HomeService, MakeUUID],
+  exports: [HomeService],
 })
 export class HomeModule {}

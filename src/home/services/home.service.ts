@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { HomeEntity, HomeEntityInstance } from '../entities/home.entity';
+import { Inject, Injectable } from "@nestjs/common";
+import { HomeEntity, HomeEntityInstance } from "../entities/home.entity";
 
 @Injectable()
 export class HomeService {

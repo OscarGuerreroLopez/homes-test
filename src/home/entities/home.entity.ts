@@ -1,5 +1,5 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { MakeUUID } from '../../shared';
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { MakeUUID } from "../../shared";
 
 export interface HomeEntity {
   id: string;

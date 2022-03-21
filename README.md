@@ -1,73 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Explanation
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Hi, and welcome to the backend code test ! The objective of this test if to assess your ability to understand and develop a solid architecture for a nestjs server. You will find in this project a home module with 3 entities inside it :
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- a `home` entity, which describes the basic properties of a home (surface in m2 etc.)
+- a `businessData` entity, which describes the pricing of a home (initial offer price, final offer price, target sale price etc.), and which has a one to one relation with the home entity
+- a `user` entity, which is used to save our internal employees (it's not a proper authentication system, it's just used to save our employees on our database)
 
-## Description
+The module is divided between `entities` (they represent the table schemas in the sqlite database), `models` (they are used by graphql for our endpoints), `repositories` (they maintain the connection and perform the operations to the sqlite database), `resolvers` (they are our graphql endpoints), and `services` (they perform and hold the business logic).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+You will also find helper functions in the shared folder, especially for the tests setup (see [src/shared/test.helper.ts](src/shared/test.helper.ts)).
+
+## Tasks
+
+1. You must create the following functions for the business data logic (see [src/home/services/businessData.service.ts](src/home/services/businessData.service.ts), function `generateBusinessDataForHome`) :
+
+   - a function to compute the negociation margin `computeNegotiationMargin` - it takes 3 parameters : `finalOfferPrice`, `targetSalePrice` and `maxNegociationMargin` (percentage with a default value of 7%) and returns the value of the margin (computed as the minimum between [targetSalePrice / finalOfferPrice - 1] and [maxNegociationMargin])
+   - a function to compute the service fees of an offer called `computeServiceFees` - it takes 2 parameters : the `finalOfferPrice` of the home, and the `zipCode` where the home is located (for example '75016', see Annexes for the computation method)
+
+2. You must create the test functions for the new critical business functions you just added.
+
+3. You must refactor the code architecture to make it more coherent. The idea is that the current architecture is not satisfactory - we would like to have something which looks more like a micro-service architecture, with at least 2 modules (you are free to create more if you feel like it makes sense).
+
+4. You must add tests for our resolvers to make sure the functions they provide work properly (see [src/home/resolvers/home.resolver.test.ts](src/home/resolvers/home.resolver.test.ts) for an example). You must add at least one test for every resolver, but you can add more if you feel the need.
+
+## Evaluation
+
+We will evaluate your work based on the quality of your code, the quality of your refacto, and the precision of your tests. Therefore, don't forget that your tests must run :
 
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn run start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn run start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn run test
 
-# e2e tests
-$ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+
+
 ```
 
-## Support
+## Annexes
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Service fees by City:
 
-## Stay in touch
+#### Lille
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- price < 100 000€ : 15 000 €
+- 100 000€ <= price < 145 000€ : 19 000€
+- 145 000€ <= price < 200 000€ : 20 000€
+- 200 000€ <= price < 400 000€ : 10% of the price
+- 400 000€ <= price < 650 000€ : 8% of the price
+- price >= 600 000€ : 30% of the price
 
-## License
+#### Paris region (75, 92, 93, 94)
 
-Nest is [MIT licensed](LICENSE).
+- price < 100 000€ : 20 000 €
+- 100 000€ <= price < 145 000€ : 22 000€
+- 145 000€ <= price < 200 000€ : 23 000€
+- 200 000€ <= price < 400 000€ : 11% of the price
+- 400 000€ <= price < 650 000€ : 8% of the price
+- price >= 600 000€ : 10% of the price
+
+#### Nantes (44) and Lyon (69)
+
+- price < 100 000€ : 20 000 €
+- 100 000€ <= price < 145 000€ : 22 000€
+- 145 000€ <= price < 200 000€ : 23 000€
+- 200 000€ <= price < 400 000€ : 11% of the price
+- 400 000€ <= price < 650 000€ : 8% of the price
+- price >= 600 000€ : 99.9999% of the price

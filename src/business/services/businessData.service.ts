@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import {
   BusinessData,
-  BusinessDataInstance,
+  BusinessDataEntity,
 } from "../entities/businessData.entity";
 import { BusinessRepositoryService } from "../../repository/services";
 import { HomeRepositoryService } from "../../repository/services";
@@ -18,8 +18,8 @@ export class BusinessDataService {
   //   computeNegotiationMargin: ComputeNegotiationMarginService;
   //   computeServiceFees: ComputeServiceFees;
   constructor(
-    @Inject(BusinessDataInstance)
-    private businessDataInstance: BusinessDataInstance,
+    @Inject(BusinessDataEntity)
+    private businessDataEntity: BusinessDataEntity,
     @Inject(BusinessRepositoryService)
     private businessDataRepository: BusinessRepositoryService,
     @Inject(HomeRepositoryService)
@@ -57,8 +57,8 @@ export class BusinessDataService {
     );
 
     const businessData = await this.businessDataRepository.createBusinessData({
-      uuid: this.businessDataInstance.getID(),
-      homeUuid: this.businessDataInstance.validID(homeUuid),
+      uuid: this.businessDataEntity.getID(),
+      homeUuid: this.businessDataEntity.validID(homeUuid),
       initialOfferPrice,
       finalOfferPrice,
       targetSalePrice,

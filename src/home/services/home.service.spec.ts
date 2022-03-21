@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { MakeUUID } from "../../shared";
-import { HomeEntityInstance } from "../entities/home.entity";
+import { HomeEntity } from "../entities/home.entity";
 import { HomeService } from "./home.service";
 import { HomeRepositoryService } from "../../repository/services";
 import { BadRequestException } from "@nestjs/common";
@@ -14,7 +14,7 @@ describe("OwnersService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         HomeService,
-        HomeEntityInstance,
+        HomeEntity,
         { provide: MakeUUID, useValue: { setRandomUuid: () => uuid } },
         {
           provide: HomeRepositoryService,

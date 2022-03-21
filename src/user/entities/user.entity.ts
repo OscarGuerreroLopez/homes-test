@@ -1,19 +1,15 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { MakeUUID } from "../../shared";
 
-export interface BusinessData {
+export interface User {
   uuid: string;
-  initialOfferPrice?: number;
-  finalOfferPrice?: number;
-  targetSalePrice?: number;
-  serviceFees?: number;
-  negociationMargin?: number;
-  homeUuid?: string;
-  home?: any;
+  email: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 @Injectable()
-export class BusinessDataEntity {
+export class UserEntity {
   constructor(@Inject(MakeUUID) private makeUUID: MakeUUID) {}
 
   getID() {

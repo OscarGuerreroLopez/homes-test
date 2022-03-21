@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { RepositoryModule } from "../repository/repository.module";
-import { BusinessDataInstance } from "./entities/businessData.entity";
+import { BusinessDataEntity } from "./entities/businessData.entity";
 import { MakeUUID } from "../shared";
 import {
   ComputeNegotiationMarginService,
@@ -12,7 +12,7 @@ import {
   imports: [RepositoryModule],
   providers: [
     ComputeNegotiationMarginService,
-    BusinessDataInstance,
+    BusinessDataEntity,
     BusinessDataService,
     MakeUUID,
     ComputeServiceFees,

@@ -17,17 +17,32 @@ type BusinessData {
   negociationMargin: Float
 }
 
+type User {
+  uuid: String!
+  email: String!
+  firstName: String
+  lastName: String
+}
+
 type Query {
   getHome(uuid: String!): Home!
   getBusinessDataFromHomeUuid(homeUuid: String!): BusinessData!
+  getUser(uuid: String!): User!
 }
 
 type Mutation {
   createHome(input: HomeInput!): Home!
   generateBusinessDataForHome(homeUuid: String!, initialOfferPrice: Float!, finalOfferPrice: Float!, targetSalePrice: Float!): BusinessData!
+  createUser(input: UserInput!): User!
 }
 
 input HomeInput {
   zipcode: String!
   surfaceM2: Float
+}
+
+input UserInput {
+  email: String!
+  firstName: String
+  lastName: String
 }

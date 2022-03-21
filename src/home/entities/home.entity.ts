@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { MakeUUID } from "../../shared";
 
-export interface HomeEntity {
+export interface Home {
   uuid: string;
   zipcode: string;
   streetNumber?: string;
@@ -28,7 +28,7 @@ export interface HomeEntity {
 // if the data does not meet the business entity rules , thus offloading that service
 
 @Injectable()
-export class HomeEntityInstance {
+export class HomeEntity {
   constructor(@Inject(MakeUUID) private makeUUID: MakeUUID) {}
 
   getID() {

@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
-import { HomeEntity, HomeEntityInstance } from "../entities/home.entity";
+import { Home, HomeEntity } from "../entities/home.entity";
 import { HomeRepositoryService } from "../../repository/services";
 
 // We abstract the repositry service so the business logic is not attached to any
@@ -13,16 +13,16 @@ import { HomeRepositoryService } from "../../repository/services";
 @Injectable()
 export class HomeService {
   constructor(
-    @Inject(HomeEntityInstance) private homeEntityInstance: HomeEntityInstance,
+    @Inject(HomeEntity) private homeEntity: HomeEntity,
     @Inject(HomeRepositoryService)
     private repositoryService: HomeRepositoryService,
   ) {}
 
-  async findAllHomes(): Promise<HomeEntity[]> {
+  async findAllHomes(): Promise<Home[]> {
     return this.repositoryService.findAllHomes();
   }
 
-  async findHome(uuid: string): Promise<HomeEntity> {
+  async findHome(uuid: string): Promise<Home> {
     const results = await this.repositoryService.findHome([uuid]);
     if (results.length !== 1) {
       throw new NotFoundException(
@@ -32,10 +32,10 @@ export class HomeService {
     return results[0];
   }
 
-  async createHome(homeInput: Partial<HomeEntity>): Promise<HomeEntity> {
-    const newHome: HomeEntity = {
-      uuid: this.homeEntityInstance.getID(),
-      zipcode: this.homeEntityInstance.getZipCode(homeInput.zipcode),
+  async createHome(homeInput: Partial<Home>): Promise<Home> {
+    const newHome: Home = {
+      uuid: this.homeEntity.getID(),
+      zipcode: this.homeEntity.getZipCode(homeInput.zipcode),
       ...homeInput,
     };
 
@@ -57,10 +57,7 @@ export class HomeService {
     }
   }
 
-  async updateHome(
-    uuid: string,
-    update: Partial<HomeEntity>,
-  ): Promise<HomeEntity> {
+  async updateHome(uuid: string, update: Partial<Home>): Promise<Home> {
     try {
       const result = await this.repositoryService.updateHome(uuid, update);
 

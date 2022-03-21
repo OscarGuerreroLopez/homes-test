@@ -30,6 +30,7 @@ export class UserService {
   async createUser(inputUser: Partial<User>): Promise<User> {
     const user = await this.userRepository.createUser({
       uuid: this.userEntity.getID(),
+      email: this.userEntity.validateEmail(inputUser.email),
       ...inputUser,
     });
     return user;

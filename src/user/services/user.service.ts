@@ -22,7 +22,7 @@ export class UserService {
   async findUser(uuid: string): Promise<User> {
     const results = await this.userRepository.findUser([uuid]);
     if (results.length !== 1) {
-      throw Error(`Could not find user with uuid ${uuid}`);
+      throw new NotFoundException(`Could not find user with uuid ${uuid}`);
     }
     return results[0];
   }

@@ -1,7 +1,7 @@
 import { Field, InputType } from "@nestjs/graphql";
 import { IsString, IsNumber } from "class-validator";
 
-@InputType("HomeInput")
+@InputType("CreateHomeInput")
 export class CreateHomeInput {
   @IsString()
   @Field()

@@ -13,6 +13,12 @@ import { HomeRepositoryService } from "../../repository/services";
 import { ComputeNegotiationMarginService } from "./computeNegotiationMargin.service";
 import { ComputeServiceFees } from "./computeServiceFees.service";
 
+interface CreateInput {
+  homeUuid: string;
+  initialOfferPrice: number;
+  finalOfferPrice: number;
+  targetSalePrice: number;
+}
 @Injectable()
 export class BusinessDataService {
   //   computeNegotiationMargin: ComputeNegotiationMarginService;
@@ -30,16 +36,15 @@ export class BusinessDataService {
   ) {}
 
   async generateBusinessDataForHome(
-    homeUuid: string,
-    initialOfferPrice: number,
-    finalOfferPrice: number,
-    targetSalePrice: number,
+    createInput: CreateInput,
   ): Promise<BusinessData> {
     // TODO : write business data logic to compute :
     //  - serviceFees (see README)
     //  - negociation margin (see README)
 
-    homeUuid = this.businessDataEntity.validID(homeUuid);
+    const { finalOfferPrice, targetSalePrice, initialOfferPrice } = createInput;
+
+    const homeUuid = this.businessDataEntity.validID(createInput.homeUuid);
 
     const home = await this.homeRepositoryService.findHome([homeUuid]);
 

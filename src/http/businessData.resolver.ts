@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { GraphQLFloat, GraphQLString } from "graphql";
+import { GraphQLString } from "graphql";
 import { GQLBusinessData } from "./entities/businessData.entity";
 import { BusinessDataService } from "../business/services";
+import { CreateBusinessDataInput } from "./dto/create-business-data.dto";
 
 @Resolver(() => GQLBusinessData)
 export class BusinessDataResolver {
@@ -9,20 +10,11 @@ export class BusinessDataResolver {
 
   @Mutation(() => GQLBusinessData)
   async generateBusinessDataForHome(
-    @Args("homeUuid", { type: () => GraphQLString })
-    homeUuid: string,
-    @Args("initialOfferPrice", { type: () => GraphQLFloat })
-    initialOfferPrice: number,
-    @Args("finalOfferPrice", { type: () => GraphQLFloat })
-    finalOfferPrice: number,
-    @Args("targetSalePrice", { type: () => GraphQLFloat })
-    targetSalePrice: number,
+    @Args("createBusinessDataInput")
+    businessDataInput: CreateBusinessDataInput,
   ): Promise<GQLBusinessData> {
     return this.businessDataService.generateBusinessDataForHome(
-      homeUuid,
-      initialOfferPrice,
-      finalOfferPrice,
-      targetSalePrice,
+      businessDataInput,
     );
   }
 

@@ -1,5 +1,6 @@
 import { Args, Mutation, Resolver, Query } from "@nestjs/graphql";
-import { GQLHome, GQLHomeInput } from "./entities/home.entity";
+import { GQLHome } from "./entities/home.entity";
+import { CreateHomeInput } from "./dto/create-home.dto";
 import { HomeService } from "../home/services/home.service";
 import { GraphQLString } from "graphql";
 
@@ -9,8 +10,8 @@ export class HomeResolver {
 
   @Mutation(() => GQLHome)
   async createHome(
-    @Args("input", { type: () => GQLHomeInput })
-    homeInput: GQLHomeInput,
+    @Args("createHomeInput")
+    homeInput: CreateHomeInput,
   ): Promise<GQLHome> {
     return this.homeService.createHome(homeInput);
   }

@@ -39,6 +39,8 @@ export class BusinessDataService {
     //  - serviceFees (see README)
     //  - negociation margin (see README)
 
+    homeUuid = this.businessDataEntity.validID(homeUuid);
+
     const home = await this.homeRepositoryService.findHome([homeUuid]);
 
     if (home.length !== 1) {
@@ -58,7 +60,7 @@ export class BusinessDataService {
 
     const businessData = await this.businessDataRepository.createBusinessData({
       uuid: this.businessDataEntity.getID(),
-      homeUuid: this.businessDataEntity.validID(homeUuid),
+      homeUuid,
       initialOfferPrice,
       finalOfferPrice,
       targetSalePrice,

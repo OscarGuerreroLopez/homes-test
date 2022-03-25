@@ -9,7 +9,6 @@ export interface BusinessData {
   serviceFees?: number;
   negociationMargin?: number;
   homeUuid?: string;
-  home?: any;
 }
 
 @Injectable()

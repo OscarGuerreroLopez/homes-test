@@ -36,6 +36,9 @@ export class HomeService {
     const newHome: Home = {
       uuid: this.homeEntity.getID(),
       zipcode: this.homeEntity.getZipCode(homeInput.zipcode),
+      streetNumber: this.homeEntity.validStreetNumber(homeInput.streetNumber),
+      streetName: this.homeEntity.validStreetName(homeInput.streetName),
+      city: this.homeEntity.validCity(homeInput.city),
       ...homeInput,
     };
 
@@ -59,6 +62,7 @@ export class HomeService {
 
   async updateHome(uuid: string, update: Partial<Home>): Promise<Home> {
     try {
+      uuid = this.homeEntity.validID(uuid);
       const result = await this.repositoryService.updateHome(uuid, update);
 
       return result;

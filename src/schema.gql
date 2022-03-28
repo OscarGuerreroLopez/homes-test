@@ -31,14 +31,21 @@ type Query {
 }
 
 type Mutation {
-  createHome(input: HomeInput!): Home!
-  generateBusinessDataForHome(homeUuid: String!, initialOfferPrice: Float!, finalOfferPrice: Float!, targetSalePrice: Float!): BusinessData!
+  createHome(createHomeInput: CreateHomeInput!): Home!
+  generateBusinessDataForHome(createBusinessDataInput: CreateBusinessDataInput!): BusinessData!
   createUser(input: UserInput!): User!
 }
 
-input HomeInput {
+input CreateHomeInput {
   zipcode: String!
   surfaceM2: Float
+}
+
+input CreateBusinessDataInput {
+  homeUuid: String!
+  initialOfferPrice: Float!
+  finalOfferPrice: Float!
+  targetSalePrice: Float!
 }
 
 input UserInput {

@@ -17,8 +17,6 @@ export interface Home {
   constructionYear?: number;
   numSecuredParkingSpots?: number;
   numUnsecuredParkingSpots?: number;
-  businessDataUuid?: string;
-  businessData?: any;
 }
 
 // This might look unnecesary, but I understand that in a microservice env here
@@ -34,8 +32,20 @@ export class HomeEntity {
   getID() {
     return this.makeUUID.setRandomUuid();
   }
+  validID(uuid: string) {
+    const isValid = this.makeUUID.isValidUUID(uuid);
+
+    if (!isValid) {
+      throw new BadRequestException(`Invalid UUID ${uuid}`);
+    }
+
+    return uuid;
+  }
 
   getZipCode(zipCode: string) {
+    // simulates a zip code validation
+    // we could check if the zipcode belongs to the area
+    // that the business operates
     if (!zipCode) {
       throw new BadRequestException(`No ZipCode ${zipCode}`);
     }
@@ -47,5 +57,28 @@ export class HomeEntity {
     }
 
     return zipCode;
+  }
+
+  validStreetNumber(num: string) {
+    if (!num) {
+      return num;
+    }
+    // we could make sure the street number exist for real
+    const isnum = /^\d+$/.test(num);
+    if (!isnum) {
+      throw new BadRequestException(`Invalid Street number ${num}`);
+    }
+
+    return num;
+  }
+
+  validStreetName(name: string) {
+    // we could make sure the street name exist for real
+    return name;
+  }
+
+  validCity(city: string) {
+    // we could make sure the city is valid
+    return city;
   }
 }
